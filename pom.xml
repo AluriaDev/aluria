@@ -12,6 +12,7 @@
         <module>engine</module>
         <module>game</module>
         <module>summoner</module>
+        <module>kingdoms</module>
     </modules>
 
     <dependencies>

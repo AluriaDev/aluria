@@ -1,0 +1,4 @@
+name: Kingdoms
+main: io.github.aluria.kingdoms.KingdomsPlugin
+version: 1.0-SNAPSHOT
+depend: [Engine]
