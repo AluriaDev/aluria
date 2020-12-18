@@ -5,6 +5,7 @@ import io.github.aluria.engine.metadata.MetadataEngine;
 import io.github.aluria.engine.metadata.key.MetadataKey;
 import io.github.aluria.engine.metadata.map.MetadataMap;
 import io.github.aluria.engine.metadata.value.MetadataValue;
+import io.github.aluria.summoner.model.area.SpawnRange;
 import io.github.aluria.summoner.model.behavior.BehaviorType;
 import io.github.aluria.summoner.model.inventory.MonsterModelInventory;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,10 @@ public class MonsterModel {
   private BehaviorType behaviorType;
   private EntityType entityType;
   private MonsterModelInventory inventory;
-
+  private SpawnRange spawnRange;
 
   public LivingEntity createNewEntity(Location location) {
+    Preconditions.checkArgument(spawnRange.isInRange(location) , "Entity spawn location its outside the spawn range.");
     Preconditions.checkArgument(entityType.isAlive(), "Entity type must be a living entity type.");
 
     LivingEntity entity = (LivingEntity) location.getWorld().spawnEntity(location, entityType);
