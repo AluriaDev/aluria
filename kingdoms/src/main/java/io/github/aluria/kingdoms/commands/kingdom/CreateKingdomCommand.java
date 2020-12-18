@@ -33,7 +33,10 @@ public class CreateKingdomCommand {
             return;
         }
 
-        if(plugin.getKingdomRegistry().getByMember(player.getName()) != null) {
+        final KingdomMember member = plugin.getMemberRegistry().getByName(player.getName());
+        if(member == null) return;
+
+        if(member.hasKingdom()) {
             player.sendMessage("§cVocê já faz parte de um reino.");
             return;
         }
@@ -64,7 +67,10 @@ public class CreateKingdomCommand {
         }
 
         final Kingdom kingdom = new Kingdom(UUID.randomUUID(), tag, name, player.getLocation());
-        kingdom.addMember(KingdomMember.of(player, Role.KING));
+        kingdom.addMember(member);
+
+        member.setKingdomId(kingdom.getId());
+        member.setRole(Role.KING);
 
         plugin.getKingdomRegistry().put(kingdom);
 
