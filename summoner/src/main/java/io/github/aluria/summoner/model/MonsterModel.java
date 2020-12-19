@@ -19,24 +19,41 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 @Getter
 @Builder
 public class MonsterModel {
 
-  private static final MetadataKey<MonsterModel> MODEL_KEY = MetadataKey.newKey("monster-model", MonsterModel.class);
+  /**
+   * Modelo do nome do monstro.
+   */
+  private static final String ENTITY_NAME_PATTERN = "&e%name% %behavior_color%[Nível %entity_level%]";
+
+
+  /**
+   * Chave do id do modelo da entidade.
+   */
+  private static final MetadataKey<Integer> MODEL_ID_KEY = MetadataKey.newKey("monster-model-id", int.class);
+
+  /**
+   * Chave do nível gerado para a entidade invocada.
+   */
+  private static final MetadataKey<Integer> ENTITY_LEVEL_KEY = MetadataKey.newKey("monster-level-id", int.class);
+
 
   private int id;
   private String displayName;
   private int minLevel, maxLevel;
+  private int spawnTime;
   private BehaviorType behaviorType;
   private EntityType entityType;
   private MonsterModelInventory inventory;
   private SpawnRange spawnRange;
 
   public LivingEntity createNewEntity(Location location) {
-    Preconditions.checkArgument(spawnRange.isInRange(location) , "Entity spawn location its outside the spawn range.");
+    Preconditions.checkArgument(spawnRange.isInRange(location), "Entity spawn location its outside the spawn range.");
     Preconditions.checkArgument(entityType.isAlive(), "Entity type must be a living entity type.");
 
     LivingEntity entity = (LivingEntity) location.getWorld().spawnEntity(location, entityType);
@@ -45,7 +62,6 @@ public class MonsterModel {
     inventory.equip(entity);
 
     MetadataMap metadataMap = MetadataEngine.getEntityMetadataMap(entity);
-    metadataMap.put(MODEL_KEY, MetadataValue.newWeakValue(this));
 
     return entity;
   }

@@ -12,6 +12,10 @@ public class ExpiringValue<T> implements MetadataValue<T> {
 
   @Override
   public T get() {
+    if (this.canExpire()) {
+      return null;
+    }
+
     return value;
   }
 
