@@ -22,8 +22,7 @@ import static org.bukkit.Bukkit.createInventory;
 
 @Getter
 @EqualsAndHashCode
-public final class Menu {
-
+public class Menu {
 
   public static Menu getMenuFromInventory(Inventory inventory) {
     InventoryHolder holder = inventory.getHolder();
