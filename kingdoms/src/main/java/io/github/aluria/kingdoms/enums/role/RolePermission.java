@@ -6,6 +6,9 @@ public enum RolePermission {
 
     PROMOTE_MEMBER,
     INVITE_MEMBER,
-    KICK_MEMBER
+    KICK_MEMBER,
+
+    PLACE_BLOCKS,
+    BREAK_BLOCKS;
 
 }

@@ -1,10 +1,14 @@
 package io.github.aluria.kingdoms.enums.role;
 
-import static io.github.aluria.kingdoms.enums.role.RolePermission.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import static io.github.aluria.kingdoms.enums.role.RolePermission.*;
 
 @Getter
 @AllArgsConstructor
@@ -25,16 +29,16 @@ public enum Role {
     private final String name;
     private final RolePermission[] permissions;
 
-    public boolean hasPermission(RolePermission permission) {
-        for (int i = 0; i <= this.ordinal(); i++) {
-            final Role role = values()[i];
-            final boolean hasPermission = ArrayUtils.contains(role.getPermissions(), permission);
+    public Collection<RolePermission> getApplicablePermissions() {
+        List<RolePermission> permissions = new LinkedList<>();
 
-            if(hasPermission) {
-                return true;
-            }
+        for (Role role : Role.values()) {
+            if(role.ordinal() > ordinal()) break;
+
+            permissions.addAll(Arrays.asList(role.getPermissions()));
         }
 
-        return false;
+        return permissions;
     }
+
 }
