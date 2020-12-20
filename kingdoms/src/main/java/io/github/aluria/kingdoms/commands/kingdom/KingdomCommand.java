@@ -3,6 +3,7 @@ package io.github.aluria.kingdoms.commands.kingdom;
 import io.github.aluria.kingdoms.KingdomsPlugin;
 import io.github.aluria.kingdoms.models.kingdom.Kingdom;
 import io.github.aluria.kingdoms.models.kingdom.KingdomMember;
+import io.github.aluria.kingdoms.models.kingdom.KingdomUser;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,25 +39,23 @@ public class KingdomCommand extends Command {
         }
 
         final Player player = (Player) sender;
-        if (args.length == 0) {
-
-            final KingdomMember member = plugin.getMemberRegistry().getByName(player.getName());
-            if(member == null) return false;
-
-            if(!member.hasKingdom()) {
-                player.sendMessage("§cVocê não faz parte de um reino. Crie um utilizando o comando /reino criar.");
-                return false;
-            }
-
-            final Kingdom kingdom = plugin.getKingdomRegistry().getById(member.getKingdomId());
-
-            // TODO: Abrir menu para gerenciar o reino
-
-        } else {
+        if(args.length > 0) {
             if(!parseSubCommand(player, label, args)) {
                 player.sendMessage(helpTopic());
             }
+
+            return true;
         }
+
+        final KingdomUser user = plugin.getUserRegistry().getByName(player.getName());
+        if(!user.hasKingdom()) {
+            player.sendMessage("§cVocê não faz parte de um reino. Crie um utilizando o comando /reino criar.");
+            return false;
+        }
+
+        final Kingdom kingdom = plugin.getKingdomRegistry().getById(user.getKingdomId());
+
+        // TODO: Abrir menu para gerenciar o reino
 
         return true;
     }
@@ -73,17 +72,29 @@ public class KingdomCommand extends Command {
         switch (args[0]) {
             case "criar":
             case "create":
-                createCommand.onCommand(player, label, Arrays.copyOfRange(args, 1, args.length));
+                createCommand.onCommand(
+                  player,
+                  label,
+                  Arrays.copyOfRange(args, 1, args.length)
+                );
                 break;
 
             case "convidar":
             case "invite":
-                inviteCommand.onCommand(player, label, Arrays.copyOfRange(args, 1, args.length));
+                inviteCommand.onCommand(
+                  player,
+                  label,
+                  Arrays.copyOfRange(args, 1, args.length)
+                );
                 break;
 
             case "entrar":
             case "join":
-                joinCommand.onCommand(player, label, Arrays.copyOfRange(args, 1, args.length));
+                joinCommand.onCommand(
+                  player,
+                  label,
+                  Arrays.copyOfRange(args, 1, args.length)
+                );
                 break;
 
             default:
@@ -96,11 +107,11 @@ public class KingdomCommand extends Command {
     private String[] helpTopic() {
         return new String[] {
           " ",
-          "  §e§lREINOS",
+          " §6§lREINOS",
           " ",
-          " §e/reino criar <tag> <nome> §8- §7Criar um reino.",
-          " §e/reino convidar <jogador> §8- §7Convidar um jogador para o reino.",
-          " §e/reino entrar <tag> §8- §7Entrar para um reino.",
+          " §e/reino criar <tag> <nome> §8§l- §7Criar um reino.",
+          " §e/reino convidar <jogador> §8§l- §7Convidar um jogador para o reino.",
+          " §e/reino entrar <tag> §8§l- §7Entrar para um reino.",
           " "
         };
     }

@@ -4,6 +4,7 @@ import io.github.aluria.kingdoms.KingdomsPlugin;
 import io.github.aluria.kingdoms.enums.role.Role;
 import io.github.aluria.kingdoms.models.kingdom.Kingdom;
 import io.github.aluria.kingdoms.models.kingdom.KingdomMember;
+import io.github.aluria.kingdoms.models.kingdom.KingdomUser;
 import io.github.aluria.kingdoms.validators.kingdom.KingdomNameValidator;
 import io.github.aluria.kingdoms.validators.kingdom.KingdomTagValidator;
 import org.bukkit.entity.Player;
@@ -33,10 +34,8 @@ public class CreateKingdomCommand {
             return;
         }
 
-        final KingdomMember member = plugin.getMemberRegistry().getByName(player.getName());
-        if(member == null) return;
-
-        if(member.hasKingdom()) {
+        final KingdomUser user = plugin.getUserRegistry().getByName(player.getName());
+        if(user.hasKingdom()) {
             player.sendMessage("§cVocê já faz parte de um reino.");
             return;
         }
@@ -67,14 +66,14 @@ public class CreateKingdomCommand {
         }
 
         final Kingdom kingdom = new Kingdom(UUID.randomUUID(), tag, name, player.getLocation());
-        kingdom.addMember(member);
+        kingdom.addMember(new KingdomMember(user.getPlayerName(), Role.KING, user.getReputation()));
+        kingdom.calculateTotalReputation();
 
-        member.setKingdomId(kingdom.getId());
-        member.setRole(Role.KING);
+        user.setKingdomId(kingdom.getId());
+        user.setRole(Role.KING);
 
         plugin.getKingdomRegistry().put(kingdom);
 
-        player.sendMessage("§aO reino [" + kingdom.getTag() + "] " + kingdom.getName() + " foi criado com sucesso.");
-
+        player.sendMessage("§aO reino [" + kingdom.getTag() + "] " + kingdom.getName() + " foi criado com sucesso!");
     }
 }

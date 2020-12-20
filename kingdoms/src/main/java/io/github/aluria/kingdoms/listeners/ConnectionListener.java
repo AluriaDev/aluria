@@ -2,6 +2,7 @@ package io.github.aluria.kingdoms.listeners;
 
 import io.github.aluria.kingdoms.KingdomsPlugin;
 import io.github.aluria.kingdoms.models.kingdom.KingdomMember;
+import io.github.aluria.kingdoms.models.kingdom.KingdomUser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,11 +18,11 @@ public class ConnectionListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        plugin.getMemberRegistry().put(new KingdomMember(event.getPlayer().getName()));
+        plugin.getUserRegistry().put(new KingdomUser(event.getPlayer()));
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        plugin.getMemberRegistry().delete(event.getPlayer().getName());
+        plugin.getUserRegistry().delete(event.getPlayer().getName());
     }
 }

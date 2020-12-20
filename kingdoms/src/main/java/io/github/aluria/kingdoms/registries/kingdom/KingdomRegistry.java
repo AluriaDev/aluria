@@ -56,6 +56,16 @@ public class KingdomRegistry {
         return null;
     }
 
+    public Kingdom getByArea(Location location) {
+        for (Kingdom kingdom : getAll()) {
+            if(kingdom.isInside(location)) {
+                return kingdom;
+            }
+        }
+
+        return null;
+    }
+
     public Set<Kingdom> getInRange(Location location, int range) {
         Set<Kingdom> copy = new HashSet<>();
 

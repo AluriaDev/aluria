@@ -5,6 +5,7 @@ import io.github.aluria.kingdoms.enums.role.Role;
 import io.github.aluria.kingdoms.models.invite.Invite;
 import io.github.aluria.kingdoms.models.kingdom.Kingdom;
 import io.github.aluria.kingdoms.models.kingdom.KingdomMember;
+import io.github.aluria.kingdoms.models.kingdom.KingdomUser;
 import org.bukkit.entity.Player;
 
 public class JoinCommand {
@@ -21,10 +22,8 @@ public class JoinCommand {
             return;
         }
 
-        final KingdomMember member = plugin.getMemberRegistry().getByName(player.getName());
-        if(member == null) return;
-
-        if (member.hasKingdom()) {
+        final KingdomUser user = plugin.getUserRegistry().getByName(player.getName());
+        if (user.hasKingdom()) {
             player.sendMessage("§cVocê já faz parte de um reino.");
             return;
         }
@@ -51,14 +50,21 @@ public class JoinCommand {
 
         player.sendMessage("§a§lYAY! §aAgora, você faz parte do reino [" + kingdom.getTag() + "] " + kingdom.getName() + "!");
 
-        member.setRole(Role.RECRUIT);
-        member.setKingdomId(kingdom.getId());
+        user.setRole(Role.RECRUIT);
+        user.setKingdomId(kingdom.getId());
 
-        kingdom.addMember(member);
         kingdom.getBroadcaster().broadcast(
           "",
           " §e* O jogador " + player.getName() + " entrou para o reino.",
           " "
         );
+
+        kingdom.addMember(new KingdomMember(
+          player.getName(),
+          Role.RECRUIT,
+          user.getReputation()
+        ));
+
+        kingdom.calculateTotalReputation();
     }
 }
