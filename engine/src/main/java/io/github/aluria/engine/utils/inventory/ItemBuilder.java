@@ -22,8 +22,13 @@ public final class ItemBuilder {
     this(new MaterialData(material, data).toItemStack(amount));
   }
 
+
   public ItemBuilder(Material material, int amount) {
     this(new ItemStack(material, amount));
+  }
+
+  public ItemBuilder(MaterialData data) {
+    this(data.toItemStack(1));
   }
 
   public ItemBuilder applyItemStack(Consumer<ItemStack> consumer) {
