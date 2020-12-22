@@ -1,6 +1,6 @@
 package io.github.aluria.engine.utils.inventory;
 
-import io.github.aluria.engine.utils.text.Lore;
+import io.github.aluria.engine.utils.text.Description;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static io.github.aluria.engine.utils.inventory.SkullCreator.itemFromUrl;
+
 public final class ItemBuilder {
 
   private ItemStack item;
@@ -18,10 +20,13 @@ public final class ItemBuilder {
     this.item = item;
   }
 
+  public ItemBuilder(String url){
+    this(itemFromUrl(url));
+  }
+
   public ItemBuilder(Material material, byte data, int amount) {
     this(new MaterialData(material, data).toItemStack(amount));
   }
-
 
   public ItemBuilder(Material material, int amount) {
     this(new ItemStack(material, amount));
@@ -57,8 +62,8 @@ public final class ItemBuilder {
     return lore(Arrays.asList(lore));
   }
 
-  public ItemBuilder lore(Lore lore) {
-    return lore(lore.toStringArray());
+  public ItemBuilder lore(Description description) {
+    return lore(description.toStringArray());
   }
 
   public ItemStack build() {
