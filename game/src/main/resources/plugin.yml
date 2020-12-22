@@ -1,0 +1,4 @@
+name: Game
+main: io.github.aluria.game.GamePlugin
+version: 1.0.0
+author: Sasuked

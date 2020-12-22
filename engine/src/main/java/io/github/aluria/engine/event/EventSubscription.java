@@ -28,6 +28,11 @@ public class EventSubscription<E extends Event> {
   private EventPriority priority;
   private boolean ignoreCancelled;
 
+
+  public static <T extends Event> EventSubscription<T> of(Class<T> clazz) {
+    return new EventSubscription<>(clazz);
+  }
+
   private EventSubscription(Class<E> clazz) {
     this.clazz = clazz;
     this.filter = Objects::nonNull;

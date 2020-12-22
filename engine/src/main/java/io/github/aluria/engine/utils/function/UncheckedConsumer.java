@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface UncheckedConsumer<T> extends Consumer<T> {
 
-  void uncheckedAccept(T t);
+  void uncheckedAccept(T t) throws Exception;
 
   @Override
   default void accept(T t) {

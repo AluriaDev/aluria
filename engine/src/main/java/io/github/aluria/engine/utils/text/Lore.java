@@ -80,7 +80,7 @@ public final class Lore implements Cloneable {
   }
 
   @Override
-  protected Lore clone() {
+  public Lore clone() {
     return new Lore(content);
   }
 }
