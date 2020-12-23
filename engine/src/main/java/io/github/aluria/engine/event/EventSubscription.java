@@ -120,10 +120,6 @@ public class EventSubscription<E extends Event> {
       }
     }
 
-    public void expire() {
-      unregister();
-    }
-
     public void unregister() {
       for (HandlerList handlerList : HandlerList.getHandlerLists()) {
         handlerList.unregister(this);
