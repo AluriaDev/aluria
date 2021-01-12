@@ -1,0 +1,9 @@
+[submodule "common"]
+	path = common
+	url = https://github.com/AluriaDev/common.git
+[submodule "world-region-guard"]
+	path = world-region-guard
+	url = https://github.com/AluriaDev/world-region-guard.git
+[submodule "aluria"]
+	path = aluria
+	url = https://github.com/AluriaDev/aluria.git

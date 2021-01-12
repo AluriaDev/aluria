@@ -1,5 +1,0 @@
-name: Engine
-main: io.github.aluria.engine.EnginePlugin
-version: 1.0.0
-author: Sasuked
-load: STARTUP

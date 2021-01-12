@@ -1,6 +1,0 @@
-*.iml
-.gradle/
-.idea/
-target/
-build/
-libs/
